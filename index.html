@@ -40,9 +40,13 @@
                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Nombre Completo</label>
                     <input type="text" id="name" name="name" required class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
-                <div class="mb-6">
+                <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Correo Electrónico</label>
                     <input type="email" id="email" name="email" required class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="mb-6">
+                    <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Número de Celular</label>
+                    <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: 5512345678">
                 </div>
                 <button type="submit" id="submit-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
                     Jugar Ahora
@@ -102,11 +106,12 @@
         const db = getFirestore(app);
 
         // Función para guardar los datos del cliente
-        async function saveCustomerData(name, email) {
+        async function saveCustomerData(name, email, phone) {
             try {
                 const docRef = await addDoc(collection(db, "clientes"), {
                     name: name,
                     email: email,
+                    phone: phone,
                     createdAt: serverTimestamp() // Guarda la fecha y hora del registro
                 });
                 console.log("Documento escrito con ID: ", docRef.id);
@@ -212,8 +217,9 @@
 
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
                 
-                const success = await saveCustomerData(name, email);
+                const success = await saveCustomerData(name, email, phone);
 
                 if (success) {
                     formContainer.classList.add('hidden');
@@ -263,4 +269,5 @@
     </script>
 </body>
 </html>
+
 
