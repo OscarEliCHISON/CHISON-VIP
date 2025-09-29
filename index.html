@@ -240,12 +240,8 @@
                 const randomRotations = Math.random() * 5 + 8;
                 const targetRotation = currentRotation + randomRotations * 2 * Math.PI;
                 
-                canvas.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-                canvas.style.transform = `rotate(${targetRotation}rad)`;
-                
-                currentRotation = targetRotation;
-
-                setTimeout(() => {
+                // Esta función se ejecutará una sola vez, exactamente cuando la animación de giro termine
+                const onSpinEnd = () => {
                     isSpinning = false;
                     const result = getResult(currentRotation);
                     showModal(result);
@@ -254,7 +250,14 @@
                         spinBtn.disabled = true;
                         spinBtn.textContent = '¡Gracias!';
                     }
-                }, 5100);
+                };
+                
+                // Le decimos al navegador que ejecute la función onSpinEnd cuando la transición termine
+                canvas.addEventListener('transitionend', onSpinEnd, { once: true });
+
+                canvas.style.transform = `rotate(${targetRotation}rad)`;
+                
+                currentRotation = targetRotation;
             });
 
             closeModalBtn.addEventListener('click', hideModal);
@@ -269,5 +272,6 @@
     </script>
 </body>
 </html>
+
 
 
